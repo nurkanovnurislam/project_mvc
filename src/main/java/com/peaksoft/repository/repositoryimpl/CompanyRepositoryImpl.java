@@ -14,30 +14,30 @@ import java.util.List;
 public class CompanyRepositoryImpl implements CompanyRepository {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager manager;
 
     @Override
     public List<Company> getAllCompany() {
-        return entityManager.createQuery("select c from Company c").getResultList();
+        return manager.createQuery("select c from Company c").getResultList();
     }
 
     @Override
     public Company getCompanyById(Long id) {
-        return entityManager.find(Company.class, id);
+        return manager.find(Company.class, id);
     }
 
     @Override
     public void saveCompany(Company company) {
-        entityManager.persist(company);
+        manager.persist(company);
     }
 
     @Override
     public void updateCompany(Company company) {
-        entityManager.merge(company);
+        manager.merge(company);
     }
 
     @Override
     public void deleteCompany(Company company) {
-        entityManager.remove(entityManager.contains(company) ? company : entityManager.merge(company));
+        manager.remove(manager.contains(company) ? company : manager.merge(company));
     }
 }

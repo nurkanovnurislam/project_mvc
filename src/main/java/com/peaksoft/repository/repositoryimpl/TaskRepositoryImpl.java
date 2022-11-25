@@ -15,43 +15,43 @@ import java.util.List;
 public class TaskRepositoryImpl implements TaskRepository {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager manager;
 
     @Override
     public List<Task> getAllTask() {
-        return entityManager.createQuery("select t from Task t").getResultList();
+        return manager.createQuery("select t from Task t").getResultList();
     }
 
     @Override
     public List<Task> getAllTask(Long lessonId) {
-        return entityManager.createQuery("select t from Task t where t.lesson.id = : lessonId",
+        return manager.createQuery("select t from Task t where t.lesson.id = : lessonId",
                 Task.class).setParameter("lessonId", lessonId).getResultList();
     }
 
     @Override
     public Task getTaskById(Long id) {
-        return entityManager.find(Task.class, id);
+        return manager.find(Task.class, id);
     }
 
     @Override
     public void saveTask(Long lessonId, Task task) {
-        Lesson lesson = entityManager.find(Lesson.class, lessonId);
+        Lesson lesson = manager.find(Lesson.class, lessonId);
         lesson.addTask(task);
         task.setLesson(lesson);
-        entityManager.merge(task);
+        manager.merge(task);
     }
 
     @Override
     public void updateTask(Long id, Task task) {
-        Task task1 = entityManager.find(Task.class, id);
+        Task task1 = manager.find(Task.class, id);
         task1.setTaskName(task.getTaskName());
         task1.setTaskText(task.getTaskText());
         task1.setDeadLine(task.getDeadLine());
-        entityManager.merge(task1);
+        manager.merge(task1);
     }
 
     @Override
     public void deleteTask(Long id) {
-        entityManager.remove(entityManager.find(Task.class, id));
+        manager.remove(manager.find(Task.class, id));
     }
 }

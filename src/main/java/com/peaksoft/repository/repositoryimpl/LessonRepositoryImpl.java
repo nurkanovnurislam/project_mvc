@@ -16,41 +16,41 @@ import java.util.List;
 public class LessonRepositoryImpl implements LessonRepository {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager manager;
 
     @Override
     public List<Lesson> getAllLesson() {
-        return entityManager.createQuery("select l from Lesson l").getResultList();
+        return manager.createQuery("select l from Lesson l").getResultList();
     }
 
     @Override
     public List<Lesson> getAllLesson(Long courseId) {
-        return entityManager.createQuery("select l from Lesson l where l.course.id = : courseId",
+        return manager.createQuery("select l from Lesson l where l.course.id = : courseId",
                 Lesson.class).setParameter("courseId", courseId).getResultList();
     }
 
     @Override
     public Lesson getLessonById(Long id) {
-        return entityManager.find(Lesson.class, id);
+        return manager.find(Lesson.class, id);
     }
 
     @Override
     public void saveLesson(Long courseId, Lesson lesson) {
-        Course course = entityManager.find(Course.class, courseId);
+        Course course = manager.find(Course.class, courseId);
         course.addLesson(lesson);
         lesson.setCourse(course);
-        entityManager.merge(lesson);
+        manager.merge(lesson);
     }
 
     @Override
     public void updateLesson(Long id, Lesson lesson) {
-        Lesson lesson1 = entityManager.find(Lesson.class, id);
+        Lesson lesson1 = manager.find(Lesson.class, id);
         lesson1.setLessonName(lesson.getLessonName());
-        entityManager.merge(lesson1);
+        manager.merge(lesson1);
     }
 
     @Override
     public void deleteLesson(Long id) {
-        entityManager.remove(entityManager.find(Lesson.class, id));
+        manager.remove(manager.find(Lesson.class, id));
     }
 }

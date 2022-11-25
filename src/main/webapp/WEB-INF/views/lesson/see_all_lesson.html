@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Lesson By Course Id</title>
+    <style>table,
+    td {
+        border: 1px solid #333333FF;
+        margin-top: 200px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 25px;
+    }
+
+    tfoot {
+        background-color: #333333FF;
+        color: #fff;
+    }
+    </style>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            padding: 3px;
+        }
+    </style>
+</head>
+<body>
+<table class="table table-bordered">
+    <thead class="table-dark">
+    <tr>
+        <th scope="colgroup">Id</th>
+        <th scope="col">Lesson name</th>
+        <th scope="col">Course ID</th>
+    </tr>
+    </thead>
+    <tbody class="table-success">
+    <tr th:each="lesson: ${getAllLesson}">
+        <td th:text="${lesson.id}"></td>
+        <td th:text="${lesson.lessonName}"></td>
+        <td th:text="${lesson.course.id}"></td>
+    </tr>
+    </tbody>
+</table>
+<br><br><br><br>
+</body>
+</html>
